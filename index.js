@@ -21,22 +21,9 @@ app.use(cookieParser());
 // app.use(bodyParser.json({limit:"50mb"}))
 // app.use(bodyParser.urlencoded({limit:"50mb",extended:false}))
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    console.log(file);
-    cb(null, "uploads/"); // Specify the destination directory for uploaded files
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original file name for the uploaded file
-  },
-});
-
-const upload = multer({ dest: "./public/data/uploads/" });
 // Route middlewares
 app.use("/auth", require("./routes/authRoute"));
-app.post("/myunsplash/create/hello", upload.single("file"), (req, res) => {
-  console.log(req.file);
-});
+
 app.use("/myunsplash", require("./routes/imageRoute"));
 app.use("/", require("./routes/general"));
 
