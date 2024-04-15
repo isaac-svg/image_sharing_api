@@ -5,7 +5,7 @@ This is a comprehensive Node.js API template that provides essential features fo
 Features:
 
 - Backend Pagination: Implement efficient pagination techniques to retrieve large datasets in smaller chunks, improving performance and reducing bandwidth usage.
-- Image Upload: Enable users to upload images or files to the server, validating and storing them securely. This feature is useful for various applications like social media platforms, e-commerce systems, or file-sharing platforms.
+- Image Upload: Enable users to upload images or files to the server, validating and storing them securely. This feature is useful for various applications like social media platforms, e-commerce systems, platforms.
 - Authentication: Implement user authentication using a JWT (JSON Web Token) based strategy. Users can register, log in, and obtain a token that grants access to protected routes.
 - Protected Routes: Restrict access to certain API endpoints by implementing middleware that checks for valid authentication tokens. This ensures that sensitive or private data can only be accessed by authorized users.
 
