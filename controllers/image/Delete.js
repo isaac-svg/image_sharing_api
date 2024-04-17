@@ -6,12 +6,14 @@ async function deleteImage(req, res, next) {
   const { imageId } = req.body;
 
   try {
-    await Image.findByIdAndDelete(imageId);
+    const payload = await Image.findByIdAndDelete(imageId);
     res
       .status(StatusCodes.OK)
       .json({ success: true, message: "Image deletion success" });
   } catch (error) {
-    return next(new ResponseError(error.message, StatusCodes.BAD_REQUEST));
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: "Image deletion failed" });
   }
 }
 
