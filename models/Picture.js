@@ -12,6 +12,7 @@ const ImageSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, "Please provide a description"],
+      index: true,
     },
     likesCount: {
       type: Number,
@@ -40,6 +41,7 @@ const ImageSchema = new mongoose.Schema(
         "science",
         "general",
       ],
+      index: true,
       type: String,
     },
   },
