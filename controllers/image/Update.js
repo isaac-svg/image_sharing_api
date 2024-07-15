@@ -34,13 +34,11 @@ async function update(req, res, next) {
     category && (image.category = category);
 
     const newImage = await image.save();
-    return next(
-      res.status(StatusCodes.OK).json({
-        success: true,
-        message: "Image updated successfully",
-        newImage,
-      })
-    );
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Image updated successfully",
+      newImage,
+    });
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
