@@ -5,29 +5,65 @@ const getPagination = require("../../utils/getPagination");
 const { categories } = require("../../utils/categories");
 
 async function findAll(req, res, next) {
-  const { page = 0, size = 200, category } = req.query;
+  const { page = 0, size = 10, category } = req.query;
   console.log(req.query);
+  const pipeline = [
+    {
+      $search: {
+        index: "filtermemory",
+        text: {
+          query: `{"description":{$eq: ${category ?? ""}}}`,
+          path: {
+            wildcard: "*",
+          },
+
+          fuzzy: {},
+        },
+      },
+    },
+    {
+      $limit: 5,
+    },
+  ];
   const query = category;
-  const pattern = query
-    ? query
-        .split("")
-        .map((char) => `[${char}${char.toUpperCase()}]`)
-        .join(".*?")
-    : "";
+
   try {
     const { limit, offset } = getPagination(page, size);
-    const condition = query
-      ? {
-          $or: [
-            { category: { $regex: new RegExp(pattern, "i") } },
-            { description: { $regex: new RegExp(pattern, "i") } },
-          ],
-        }
-      : {};
+    console.log({ limit, offset });
 
-    const images = await Image.paginate(condition, { limit, offset });
-    console.log(images.totalDocs);
-    if (images?.totalDocs === 0 || !images) {
+    const images = await Image.aggregate([
+      {
+        $search: {
+          index: "filtermemory",
+          text: {
+            query: `{"description":{$eq: ${category ?? ""}}}`,
+            path: {
+              wildcard: "*",
+            },
+
+            fuzzy: {},
+          },
+        },
+      },
+      {
+        $addFields: {
+          score: { $meta: "searchScore" },
+        },
+      },
+      {
+        $sort: {
+          score: -1,
+        },
+      },
+      {
+        $skip: offset,
+      },
+      {
+        $limit: 10,
+      },
+    ]).exec();
+    // console.log(images);
+    if (images.length === 0 || !images) {
       console.log("no Image found with this category: ", category);
       return res.status(404).json({
         success: false,
@@ -37,7 +73,7 @@ async function findAll(req, res, next) {
     // console.log(images);
     return res.status(StatusCodes.OK).json({
       totalImages: images.totalDocs,
-      posts: images.docs,
+      posts: images,
       totalPages: images.totalPages,
       currentPage: images.page - 1,
     });

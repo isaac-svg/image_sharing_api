@@ -47,7 +47,10 @@ const ImageSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+ImageSchema.index(
+  { category: "text", description: "text" },
+  { default_language: "english", min: 2 }
+);
 ImageSchema.plugin(mongoosePaginate);
 
 const Image = mongoose.model("Image", ImageSchema);
