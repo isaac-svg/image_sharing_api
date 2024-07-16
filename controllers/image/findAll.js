@@ -5,29 +5,28 @@ const getPagination = require("../../utils/getPagination");
 const { categories } = require("../../utils/categories");
 
 async function findAll(req, res, next) {
-  const { page = 0, size = 10, category } = req.query;
   console.log(req.query);
-  const pipeline = [
-    {
-      $search: {
-        index: "filtermemory",
-        text: {
-          query: `{"description":{$eq: ${category ?? ""}}}`,
-          path: {
-            wildcard: "*",
-          },
+  // const pipeline = [
+  //   {
+  //     $search: {
+  //       index: "filtermemory",
+  //       text: {
+  //         query: `{"description":{$eq: ${category ?? ""}}}`,
+  //         path: {
+  //           wildcard: "*",
+  //         },
 
-          fuzzy: {},
-        },
-      },
-    },
-    {
-      $limit: 5,
-    },
-  ];
-  const query = category;
+  //         fuzzy: {},
+  //       },
+  //     },
+  //   },
+  //   {
+  //     $limit: 5,
+  //   },
+  // ];
 
   try {
+    const { page = 0, size = 15, category } = req.query;
     const { limit, offset } = getPagination(page, size);
     console.log({ limit, offset });
 
@@ -64,7 +63,7 @@ async function findAll(req, res, next) {
     ]).exec();
     // console.log(images);
     if (images.length === 0 || !images) {
-      console.log("no Image found with this category: ", category);
+      // console.log("no Image found with this category: ", category);
       return res.status(404).json({
         success: false,
         message: "Your query did not find any memory",
