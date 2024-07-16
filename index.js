@@ -11,7 +11,7 @@ const Images = require("./models/Picture");
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN || "http://localhost:5173",
+    origin: process.env.ORIGIN ?? "http://localhost:5173",
   })
 );
 app.use(express.json({ limit: "50mb" }));
