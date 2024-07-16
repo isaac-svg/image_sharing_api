@@ -6,7 +6,7 @@ const { StatusCodes } = require("http-status-codes");
 async function register(req, res, next) {
   const { username, password: pass, email } = req.body;
   try {
-    console.info(req.body);
+    // console.info(req.body);
     const newUser = new User({ username, password: pass, email });
     const savedUser = await newUser.save();
     const token = newUser.SignJwtToken();

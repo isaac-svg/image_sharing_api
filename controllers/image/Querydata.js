@@ -42,9 +42,9 @@ const queryData = async (req, res) => {
         $limit: limit,
       },
     ];
-    console.time("queryTIme");
+    // console.time("queryTIme");
     const images = await Image.aggregate(pipeline).exec();
-    console.timeEnd("queryTIme");
+    // console.timeEnd("queryTIme");
     if (images.length === 0 || !images) {
       return res.status(404).json({
         success: false,

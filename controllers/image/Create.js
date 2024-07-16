@@ -5,9 +5,8 @@ const uploadImage = require("../../utils/uploadToCloud");
 
 async function createPost(req, res, next) {
   console.log(req.body);
-  const { url, base64Image, category, description } = req.body;
-  console.log(req.file, " file");
-  //   console.log(req.body, "upload req.body  \n");
+  const { url, base64Image, category, description, authorName } = req.body;
+
   if (!url && !base64Image) {
     return res.status(StatusCodes.LENGTH_REQUIRED).json({
       message: "Image or url required",
@@ -28,6 +27,7 @@ async function createPost(req, res, next) {
       base64Image: base64Image,
       category,
       description,
+      authorName,
     });
     res.json(newImage._doc);
   } catch (error) {

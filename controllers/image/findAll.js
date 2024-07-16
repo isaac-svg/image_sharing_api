@@ -5,31 +5,11 @@ const getPagination = require("../../utils/getPagination");
 const { categories } = require("../../utils/categories");
 
 async function findAll(req, res, next) {
-  console.log(req.query);
-  // const pipeline = [
-  //   {
-  //     $search: {
-  //       index: "filtermemory",
-  //       text: {
-  //         query: `{"description":{$eq: ${category ?? ""}}}`,
-  //         path: {
-  //           wildcard: "*",
-  //         },
-
-  //         fuzzy: {},
-  //       },
-  //     },
-  //   },
-  //   {
-  //     $limit: 5,
-  //   },
-  // ];
-
   try {
     const { page = 0, size = 15, category } = req.query;
-    console.log(req.query);
+    // console.log(req.query);
     const { limit, offset } = getPagination(page, size);
-    console.log({ limit, offset });
+    // console.log({ limit, offset });
 
     const images = await Image.paginate({}, { limit, offset });
     if (images.length === 0 || !images) {

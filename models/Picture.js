@@ -9,6 +9,9 @@ const ImageSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    authorName: {
+      type: String,
+    },
     description: {
       type: String,
       required: [true, "Please provide a description"],

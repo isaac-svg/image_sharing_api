@@ -3,7 +3,7 @@ const Image = require("../../models/Picture");
 const { StatusCodes } = require("http-status-codes");
 const likeImage = async (req, res, next) => {
   const { imageId, imageAuthorId, voterId } = req.body;
-  console.log(req.body, "req.body");
+  // console.log(req.body, "req.body");
   try {
     const image = await Image.findOne({
       _id: imageId,
@@ -24,10 +24,10 @@ const likeImage = async (req, res, next) => {
     console.log(isAlreadyLiked);
     if (isAlreadyLiked) {
       image.likes = image.likes.filter((voter) => voter.toString() !== voterId);
-      console.log("Unlike");
+      // console.log("Unlike");
     } else {
       image.likes.push(voterId);
-      console.log("New liker");
+      // console.log("New liker");
     }
     await image.save();
     // console.log(image);

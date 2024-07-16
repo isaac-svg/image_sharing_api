@@ -46,7 +46,7 @@ async function start() {
       console.log(`Server is listening on port ${PORT}`);
     });
     // <Isaac remember delete this line after you wre done deleting the images/>
-    await Images.deleteMany();
+    // await Images.deleteMany();
     // console.log("delete all Images");
   } catch (error) {
     console.log(error.message);

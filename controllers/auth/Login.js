@@ -3,7 +3,7 @@ const User = require("../../models/User");
 
 async function login(req, res) {
   const { username, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     if (!username || !password) {
       return res.status(StatusCodes.BAD_REQUEST).send({
@@ -34,7 +34,7 @@ async function login(req, res) {
       _id: user["_id"],
       isAuthenticated: true,
     };
-    console.log(token);
+    // console.log(token);
     return res
       .cookie("token", token, {
         secure: true,
