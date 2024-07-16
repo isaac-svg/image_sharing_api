@@ -27,41 +27,11 @@ async function findAll(req, res, next) {
 
   try {
     const { page = 0, size = 15, category } = req.query;
+    console.log(req.query);
     const { limit, offset } = getPagination(page, size);
     console.log({ limit, offset });
 
-    const images = await Image.aggregate([
-      {
-        $search: {
-          index: "filtermemory",
-          text: {
-            query: `{"description":{$eq: ${category ?? ""}}}`,
-            path: {
-              wildcard: "*",
-            },
-
-            fuzzy: {},
-          },
-        },
-      },
-      {
-        $addFields: {
-          score: { $meta: "searchScore" },
-        },
-      },
-      {
-        $sort: {
-          score: -1,
-        },
-      },
-      {
-        $skip: offset,
-      },
-      {
-        $limit: 10,
-      },
-    ]).exec();
-    // console.log(images);
+    const images = await Image.paginate({}, { limit, offset });
     if (images.length === 0 || !images) {
       // console.log("no Image found with this category: ", category);
       return res.status(404).json({
@@ -69,10 +39,10 @@ async function findAll(req, res, next) {
         message: "Your query did not find any memory",
       });
     }
-    // console.log(images);
+
     return res.status(StatusCodes.OK).json({
       totalImages: images.totalDocs,
-      posts: images,
+      posts: images.docs,
       totalPages: images.totalPages,
       currentPage: images.page - 1,
     });

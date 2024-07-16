@@ -1,14 +1,8 @@
+const router = require("express").Router();
+const findAll = require("../controllers/image/findAll");
+const { queryData } = require("../controllers/image/Querydata");
 
-const router =  require("express").Router()
-const findAll = require("../controllers/image/findAll")
+router.route("/all").get(findAll);
+router.route("/query").get(queryData);
 
-
-
-
-router.route("/all").get(findAll)
-
-
-
-
-
-module.exports = router
+module.exports = router;
